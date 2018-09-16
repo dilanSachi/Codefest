@@ -1,5 +1,6 @@
 package sample;
 
+import javax.sound.sampled.Line;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -7,6 +8,7 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class ServerSide implements Runnable {
@@ -14,10 +16,7 @@ public class ServerSide implements Runnable {
 
     public void run()
     {
-        int[] product1={0,0};
-        int[] product2={0,0};
-        int[] product3={0,0};
-        int[] product4={0,0};
+        HashMap<String,int[][]> LineDetails = new HashMap<String, int[][]>();
         try
         {
 
@@ -40,32 +39,38 @@ public class ServerSide implements Runnable {
                 String number = br.readLine();
                 String number1 = br.readLine();
                 String number2 = br.readLine();
+                String number3 = br.readLine();
                 //System.out.println("Message received from client is "+number1);
                 //System.out.println("Message received from client is "+number2);
                 //Multiplying the number by 2 and forming the return message
                 String machine = number1.split(":")[1];
                 boolean state =Boolean.parseBoolean(number2.split(":")[1].split(" ")[1]);
+                String line = number3.split(":")[1].split(" ")[1];
 
+                if (!LineDetails.containsKey(line)){
+                    int[][] x = {{0,0},{0,0},{0,0},{0,0}};
+                    LineDetails.put(line,x);
+                }
                 if(machine.equals(" S1")){
                     if(state == true){
-                        product1[0]++;
+                        LineDetails.get(line)[0][0]++;
                     }
-                    product1[1]++;
+                    LineDetails.get(line)[0][1]++;
                 }else if(machine.equals(" S2")){
                     if(state == true){
-                        product2[0]++;
+                        LineDetails.get(line)[1][0]++;
                     }
-                    product2[1]++;
+                    LineDetails.get(line)[1][1]++;
                 }else if(machine.equals(" S3")){
                     if(state == true){
-                        product3[0]++;
+                        LineDetails.get(line)[2][0]++;
                     }
-                    product3[1]++;
+                    LineDetails.get(line)[2][1]++;
                 }else if(machine.equals(" S4")){
                     if(state == true){
-                        product4[0]++;
+                        LineDetails.get(line)[3][0]++;
                     }
-                    product4[1]++;
+                    LineDetails.get(line)[3][1]++;
                 }
 
                 System.out.println(machine+" "+state);
@@ -86,7 +91,9 @@ public class ServerSide implements Runnable {
                 os.write(s);
                 os.flush();
 
-                System.out.println(Arrays.toString(product1)+" "+Arrays.toString(product2)+" "+Arrays.toString(product3)+" "+Arrays.toString(product4)+" ");
+                for(String sline : LineDetails.keySet()){
+                    System.out.println(Arrays.toString(LineDetails.get(sline)[3]) + " "+sline);
+                }
             }
         }
         catch (Exception e)
