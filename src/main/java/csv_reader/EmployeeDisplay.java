@@ -1,5 +1,7 @@
 package csv_reader;
 
+import java.awt.AWTEventMulticaster;
+import java.awt.event.ActionListener;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
@@ -7,7 +9,11 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 public class EmployeeDisplay extends javax.swing.JFrame {
 
@@ -266,22 +272,26 @@ public class EmployeeDisplay extends javax.swing.JFrame {
     private void add_data(){
         try{
             List<String> lines=Files.readAllLines(Paths.get("src\\main\\java\\csv_reader\\employee_data.csv"));
-            int session_length_hour=Integer.parseInt(lines.get(0).split(",")[1].split(":")[0]);
-            int session_length_minute=Integer.parseInt(lines.get(0).split(",")[1].split(":")[1]);
-            int no_of_slots=Integer.parseInt(lines.get(1).split(",")[1]);
-            session_length=LocalTime.of(session_length_hour, session_length_minute);
-            lines.remove(0);
-            lines.remove(0);
-            lines.remove(0);
+            if(lines.isEmpty()){
+                JOptionPane.showMessageDialog(rootPane, "No employee data found");
+            }else{
+                int session_length_hour=Integer.parseInt(lines.get(0).split(",")[1].split(":")[0]);
+                int session_length_minute=Integer.parseInt(lines.get(0).split(",")[1].split(":")[1]);
+                int no_of_slots=Integer.parseInt(lines.get(1).split(",")[1]);
+                session_length=LocalTime.of(session_length_hour, session_length_minute);
+                lines.remove(0);
+                lines.remove(0);
+                lines.remove(0);
 
-            for(int i=0;i<no_of_slots;i++){
-                data.add(new ArrayList<String[]>());
-            }
+                for(int i=0;i<no_of_slots;i++){
+                    data.add(new ArrayList<String[]>());
+                }
 
-            for(String line : lines){
-                line=line.replace("\"","");
-                String []result=line.split(",");
-                data.get(Integer.parseInt(result[2])-1).add(result);
+                for(String line : lines){
+                    line=line.replace("\"","");
+                    String []result=line.split(",");
+                    data.get(Integer.parseInt(result[2])-1).add(result);
+                }
             }
         }catch(Exception e){
             System.out.println(e.toString());
@@ -297,21 +307,45 @@ public class EmployeeDisplay extends javax.swing.JFrame {
             String slot="";
             LocalTime current_time=LocalTime.now();
             Duration dur1=Duration.between(LocalTime.MIN, session_length);
-            System.out.println(data.get(current_slot).get(0)[1]);
             for (int i=0;i<data.get(current_slot).size();i++){
                 int employee_hour=Integer.parseInt(data.get(current_slot).get(i)[1].substring(0, 2));
                 int employee_minute=Integer.parseInt(data.get(current_slot).get(i)[1].substring(3, 5));
                 LocalTime start_time=LocalTime.of(employee_hour, employee_minute);
                 Duration dur2=Duration.between(start_time,current_time);
-                if(dur1.compareTo(dur2)>0){
+                ///Duration dur3=Duration.between(start_time,);
+                if(dur2.get(ChronoUnit.SECONDS)>=0 && dur1.get(ChronoUnit.SECONDS)>dur2.get(ChronoUnit.SECONDS)){
+                    
+                    System.out.println(data.get(current_slot).get(i)[0]);
+                    System.out.println("dur 1 "+dur1.get(ChronoUnit.SECONDS));
+                    System.out.println("dur 2 "+dur2.get(ChronoUnit.SECONDS));
+                    
                     name=data.get(current_slot).get(i)[0];
                     session=data.get(current_slot).get(i)[1];
                     slot=data.get(current_slot).get(i)[2];
                     lbl_current_name.setText(name);
-                    lbl_current_session.setText(session);
+                    
                     lbl_current_slot.setText(slot);
                     
-                    if(data.get(current_slot).size()-1!=i){
+                    Thread thread=new Thread(){
+                        public void run(){
+                            while(true){
+                                LocalTime time=LocalTime.now();
+                                lbl_current_session.setText(time.toString().substring(0, 8));
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(EmployeeDisplay.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        }
+                    };
+                    
+                    thread.start();
+                    
+                    if((data.get(current_slot).size()-1)!=i){
+                        //System.out.println("Name"+data.get(current_slot).get(i)[0]);
+                        //System.out.println("Size"+data.get(current_slot).size());
+                       // System.out.println("i"+i);
                         name=data.get(current_slot).get(i+1)[0];
                         session=data.get(current_slot).get(i+1)[1];
                         slot=data.get(current_slot).get(i+1)[2];
@@ -319,6 +353,7 @@ public class EmployeeDisplay extends javax.swing.JFrame {
                         lbl_next_session.setText(session);
                         lbl_next_slot.setText(slot);
                     }
+                    break;
                 }
             }
         }
