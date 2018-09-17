@@ -1,6 +1,4 @@
 package sample;
-
-import javax.sound.sampled.Line;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -13,10 +11,11 @@ import java.util.Scanner;
 
 public class ServerSide implements Runnable {
     private static Socket socket;
+    HashMap<String,int[][]> LineDetails;
 
     public void run()
     {
-        HashMap<String,int[][]> LineDetails = new HashMap<String, int[][]>();
+        LineDetails = new HashMap<String, int[][]>();
         try
         {
 

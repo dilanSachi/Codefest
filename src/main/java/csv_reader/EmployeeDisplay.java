@@ -271,7 +271,7 @@ public class EmployeeDisplay extends javax.swing.JFrame {
     
     private void add_data(){
         try{
-            List<String> lines=Files.readAllLines(Paths.get("src\\main\\java\\csv_reader\\employee_data.csv"));
+            List<String> lines=Files.readAllLines(Paths.get("src/main/java/csv_reader/employee_data.csv"));
             if(lines.isEmpty()){
                 JOptionPane.showMessageDialog(rootPane, "No employee data found");
             }else{
