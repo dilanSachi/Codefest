@@ -18,8 +18,10 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        Thread Serverthread = new Thread(new ServerSide());
-        Serverthread.start();
+        //Thread Serverthread = new Thread(new ServerSide());
+        //Serverthread.start();
+        DatabaseConnection data = new DatabaseConnection();
+        data.startConnection();
         launch(args);
     }
 }
