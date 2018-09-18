@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class ServerSide implements Runnable {
     private static Socket socket;
-    HashMap<String,int[][]> LineDetails;
+    static HashMap<String,int[][]> LineDetails;
 
     public void run()
     {
