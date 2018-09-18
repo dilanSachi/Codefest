@@ -1,8 +1,6 @@
 package csv_new_reader;
 
-import csv_reader.EmployeeDisplay;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,8 +15,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class CSVController implements Initializable{
 
@@ -39,7 +35,7 @@ public class CSVController implements Initializable{
     }
 
     public void initialize(URL location, ResourceBundle resources) {
-
+        add_data();
     }
 
     private static ArrayList<ArrayList<String[]>> data=new ArrayList<ArrayList<String[]>>();
@@ -85,51 +81,12 @@ public class CSVController implements Initializable{
             ///Duration dur3=Duration.between(start_time,);
             if (dur2.get(ChronoUnit.SECONDS) >= 0 && dur1.get(ChronoUnit.SECONDS) > dur2.get(ChronoUnit.SECONDS)) {
 
-                System.out.println(data.get(current_slot).get(i)[0]);
-                System.out.println("dur 1 " + dur1.get(ChronoUnit.SECONDS));
-                System.out.println("dur 2 " + dur2.get(ChronoUnit.SECONDS));
-
                 name = data.get(current_slot).get(i)[0];
                 session = data.get(current_slot).get(i)[1];
                 slot = data.get(current_slot).get(i)[2];
                 lbl_current_name.setText(name);
-
                 lbl_slot.setText(slot);
-/*
-                Task<Integer> task=new Task<Integer>() {
-                    @Override
-                    protected Integer call() throws Exception {
-                        while(true){
-                            LocalTime time = LocalTime.now();
-                            lbl_current_session.setText(time.toString().substring(0, 8));
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException ex) {
-                                Logger.getLogger(EmployeeDisplay.class.getName()).log(Level.SEVERE, null, ex);
-                                break;
-                            }
-                        }
-                        return null;
-                    }
-                };*/
-
-               /// Thread thread = new Thread() {
-                Platform.runLater(new Runnable() {
-                    public void run() {
-                        while (true) {
-                            LocalTime time = LocalTime.now();
-                            lbl_current_session.setText(time.toString().substring(0, 8));
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException ex) {
-                                Logger.getLogger(EmployeeDisplay.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    }
-                });
-                //thread.start();
-
-                //new Thread(task).start();
+                lbl_current_session.setText(LocalTime.now().toString().substring(0, 8));
 
                 if ((data.get(current_slot).size() - 1) != i) {
                     name = data.get(current_slot).get(i + 1)[0];
@@ -162,7 +119,7 @@ public class CSVController implements Initializable{
     }
 
     public void showEmployeeData(ActionEvent actionEvent) {
-        add_data();
+
         show_employee_data();
     }
 }
