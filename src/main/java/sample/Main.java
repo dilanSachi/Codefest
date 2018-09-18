@@ -5,6 +5,23 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import java.io.File;
+import org.jfree.chart.*;
+import org.jfree.data.general.*;
+import org.apache.pdfbox.pdmodel.*;
+import java.io.InputStream;
+import java.io.*;
+import org.apache.pdfbox.pdmodel.edit.*;
+import org.apache.pdfbox.pdmodel.graphics.xobject.*;
+import org.apache.pdfbox.exceptions.COSVisitorException;
+
+import java.util.List;
+
+import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
+import ar.com.fdvs.dj.core.DynamicJasperHelper;
+import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
 
 
 //
@@ -32,15 +49,22 @@ public class Main extends Application {
         ServerSide s = new ServerSide();
         Thread Serverthread = new Thread(s);
         Serverthread.start();
+        launch(args);
         DatabaseConnection data = new DatabaseConnection();
         data.startConnection();
-        launch(args);
-        try{
-            System.out.println("starts");
-            Thread.sleep(30000);
-            data.UpdateData(s.LineDetails,12,2015);
-        }catch(Exception e){
+        data.GetData();
+        
+        
+        try {
+            JasperPrint jp2 = DynamicJasperHelper.generateJasperPrint(
+                    new Report().getBarReport(), new ClassicLayoutManager(),
+                    DummyProcessDB.getListOfCars());
 
+            
+            JasperViewer.viewReport(jp2, false);
+        }catch(Exception e){
+            System.out.println('X');
         }
+        
     }
 }
