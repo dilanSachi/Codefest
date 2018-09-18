@@ -50,21 +50,10 @@ public class Main extends Application {
         Thread Serverthread = new Thread(s);
         Serverthread.start();
         launch(args);
+
         DatabaseConnection data = new DatabaseConnection();
         data.startConnection();
         data.GetData();
-        
-        
-        try {
-            JasperPrint jp2 = DynamicJasperHelper.generateJasperPrint(
-                    new Report().getBarReport(), new ClassicLayoutManager(),
-                    DummyProcessDB.getListOfCars());
 
-            
-            JasperViewer.viewReport(jp2, false);
-        }catch(Exception e){
-            System.out.println('X');
-        }
-        
     }
 }
