@@ -6,6 +6,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
+//
+//import java.sql.Connection;
+//import java.sql.DriverManager;
+//import java.util.HashMap;
+//
+//import net.sf.jasperreports.engine.JasperCompileManager;
+//import net.sf.jasperreports.engine.JasperExportManager;
+//import net.sf.jasperreports.engine.JasperFillManager;
+//import net.sf.jasperreports.engine.JasperPrint;
+
 public class Main extends Application {
 
     @Override
