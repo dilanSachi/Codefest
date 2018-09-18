@@ -83,7 +83,7 @@ fx:controller="csv.Controller"
                   <Font size="19.0" />
                </font>
             </Label>
-            <Button fx:id="btn_previos_slot" layoutX="56.0" layoutY="509.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="143.0" text="Previous Slot">
+            <Button fx:id="btn_previos_slot" layoutX="56.0" layoutY="509.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="143.0" text="Previous Slot" onAction="#previousData">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
