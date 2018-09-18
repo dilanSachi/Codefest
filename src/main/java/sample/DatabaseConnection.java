@@ -1,5 +1,8 @@
 package sample;
+import org.apache.lucene.index.ReaderSlice;
+
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DatabaseConnection {
@@ -17,20 +20,35 @@ public class DatabaseConnection {
 
     }
 
-    public void UpdateData(HashMap<String,int[][]> x,int month, int year){
+    public void GetData(){
+        ArrayList<ResultSet> d = new ArrayList<ResultSet>();
+        Statement myStatement;
+        ResultSet processes;
         try{
-            Statement myStatement = this.myConnection.createStatement();
-            for (String key : x.keySet()){
-                myStatement.executeUpdate("CREATE TABLE IF NOT EXISTS "+key+" " +
-                        "(Month int NOT NULL, Year int NOT NULL, productionLine int , produce int, PRIMARY KEY(Month,Year,productionLine));");
-                for (int j=0;j<x.get(key).length;j++){
-                    myStatement.executeUpdate("INSERT INTO "+key+" VALUES " +"("+month+","+year+","+j+","+x.get(key)[j][0]+")");
+            myStatement = this.myConnection.createStatement();
+            processes = myStatement.executeQuery("SELECT * from productionLineNames");
+            while(processes.next()){
+                for (int i =0 ;i<4;i++){
+                    myStatement = this.myConnection.createStatement();
+                    System.out.println("SELECT  * from "+processes.getString("name")+
+                            " where productionLine = "+i);
+                    ResultSet r = myStatement.executeQuery("SELECT  * from "+processes.getString("name")+
+                            " where productionLine = "+i+";");
+                    d.add(r);
                 }
             }
-
         }catch(Exception e){
             System.out.println(e);
         }
+        System.out.println("d");
+        try{
+            for (ResultSet r : d){
+                while(r.next()){
+                    System.out.println(r.getString("produce"));
+                }
+            }
+        }catch(Exception e){}
+
 
     }
 
