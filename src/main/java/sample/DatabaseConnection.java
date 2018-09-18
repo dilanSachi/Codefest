@@ -22,7 +22,7 @@ public class DatabaseConnection {
 
     }
 
-    public void GetData(){
+    public ArrayList<ResultSet> GetData(){
         ArrayList<ResultSet> d = new ArrayList<ResultSet>();
         Statement myStatement;
         ResultSet processes;
@@ -50,7 +50,7 @@ public class DatabaseConnection {
                 }
             }
         }catch(Exception e){}
-
+        return d;
 
     }
 

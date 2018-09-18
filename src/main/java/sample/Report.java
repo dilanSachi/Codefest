@@ -1,4 +1,8 @@
 package sample;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
@@ -20,138 +24,59 @@ import ar.com.fdvs.dj.domain.chart.builder.DJBarChartBuilder;
 import ar.com.fdvs.dj.domain.chart.builder.DJPieChartBuilder;
 import ar.com.fdvs.dj.domain.chart.plot.DJAxisFormat;
 import ar.com.fdvs.dj.domain.entities.columns.PropertyColumn;
+import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.graphics.xobject.PDJpeg;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
 
 
 
 
+public class Report {
 
+    void generateReport(){
+        DefaultPieDataset pieDataset = new DefaultPieDataset();
+        pieDataset.setValue("Chrome", new Integer(42));
+        pieDataset.setValue("Explorer", new Integer(24));
+        pieDataset.setValue("Firefox", new Integer(24));
+        pieDataset.setValue("Safari", new Integer(12));
+        pieDataset.setValue("Opera", new Integer(8));
+        JFreeChart chart = ChartFactory.createPieChart3D(
+                "Browser Popularity", // Title
+                pieDataset, // Dataset
+                true, // Show legend
+                true, // Use tooltips
+                false // Configure chart to generate URLs?
+        );
+        try {
+            ChartUtilities.saveChartAsJPEG(new File("/home/madnisal/chart.jpg"), chart, 500, 300);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
+        try {
 
+            PDDocument document = new PDDocument();
+            PDPage page = new PDPage(PDPage.PAGE_SIZE_A4);
+            document.addPage(page);
 
+            InputStream in = new FileInputStream(new File("/home/madnisal/chart.jpg"));
+            PDJpeg img = new PDJpeg(document, in);
+            PDPageContentStream contentStream = new PDPageContentStream(document, page);
+            contentStream.drawImage(img, 10, 300);
+            contentStream.close();
 
-abstract class ReportBase {
-
-    protected AbstractColumn modelCol;
-    protected AbstractColumn mfgCol;
-
-    public ReportBase() {
-        modelCol = ColumnBuilder.getNew()
-                .setColumnProperty("date", String.class.getName())
-                .setTitle("Date").setWidth(70).build();
-        mfgCol = ColumnBuilder.getNew()
-                .setColumnProperty("errors", String.class.getName())
-                .setTitle("Errors").setWidth(70).build();
-    }
-
-    public Style getHeaderStyle() {
-        Style headerStyle = new Style();
-        headerStyle.setFont(Font.VERDANA_MEDIUM_BOLD);
-        headerStyle.setBorderBottom(Border.PEN_2_POINT());
-        headerStyle.setHorizontalAlign(HorizontalAlign.CENTER);
-        headerStyle.setVerticalAlign(VerticalAlign.MIDDLE);
-        headerStyle.setBackgroundColor(Color.DARK_GRAY);
-        headerStyle.setTextColor(Color.WHITE);
-        headerStyle.setTransparency(Transparency.OPAQUE);
-        return headerStyle;
-    }
-
-    protected JRDataSource getDataSource() {
-        JRDataSource dataSource = new JRBeanCollectionDataSource(
-                DummyDB.getListOfProcessLines());
-        return dataSource;
-
-    }
-
-}
-
-
-
-public class Report extends ReportBase {
-
-    private DynamicReportBuilder builder;
-
-    public Report() throws Exception {
-        builder = new DynamicReportBuilder();
-
-        builder.addColumn(modelCol);
-        builder.addColumn(mfgCol);
-
-        builder.setUseFullPageWidth(true);
-        builder.setDefaultStyles(null, null, getHeaderStyle(), null);
-    }
-
-    private DJChart createBarChart() {
-
-        DJAxisFormat categoryAxisFormat = new DJAxisFormat("category");
-        categoryAxisFormat.setLabelFont(Font.ARIAL_SMALL);
-        categoryAxisFormat.setLabelColor(Color.DARK_GRAY);
-        categoryAxisFormat.setTickLabelFont(Font.ARIAL_SMALL);
-        categoryAxisFormat.setTickLabelColor(Color.DARK_GRAY);
-        categoryAxisFormat.setTickLabelMask("");
-        categoryAxisFormat.setLineColor(Color.DARK_GRAY);
-
-        DJAxisFormat valueAxisFormat = new DJAxisFormat("value");
-        valueAxisFormat.setLabelFont(Font.ARIAL_SMALL);
-        valueAxisFormat.setLabelColor(Color.DARK_GRAY);
-        valueAxisFormat.setTickLabelFont(Font.ARIAL_SMALL);
-        valueAxisFormat.setTickLabelColor(Color.DARK_GRAY);
-        valueAxisFormat.setTickLabelMask("#,##0.0");
-        valueAxisFormat.setLineColor(Color.DARK_GRAY);
-
-        DJChart chart = new DJBarChartBuilder()
-                .setX(20).setY(10).setWidth(500)
-                .setHeight(250).setCentered(false)
-                .setBackColor(Color.LIGHT_GRAY).setShowLegend(true)
-                .setPosition(DJChartOptions.POSITION_FOOTER)
-                .setTitle("Car Sales").setTitleColor(Color.DARK_GRAY)
-                .setTitleFont(Font.ARIAL_BIG_BOLD)
-                .setSubtitle("Models sold in year(s) 2009-2015")
-                .setSubtitleColor(Color.DARK_GRAY)
-                .setSubtitleFont(Font.GEORGIA_SMALL_BOLD)
-                .setLegendColor(Color.DARK_GRAY)
-                .setLegendFont(Font.ARIAL_SMALL_BOLD)
-                .setLegendBackgroundColor(Color.WHITE)
-                .setLegendPosition(DJChartOptions.EDGE_BOTTOM)
-                .setTitlePosition(DJChartOptions.EDGE_TOP)
-                .setLineStyle(DJChartOptions.LINE_STYLE_DOTTED)
-                .setLineWidth(1)
-                .setLineColor(Color.DARK_GRAY).setPadding(5)
-                .setCategory((PropertyColumn) modelCol).addSerie(mfgCol)
-                .setShowLabels(false).setCategoryAxisFormat(categoryAxisFormat)
-                .setValueAxisFormat(valueAxisFormat).build();
-        return chart;
-    }
-
-    private DJChart createPieChart() {
-        DJChart chart = new DJPieChartBuilder()
-                .setX(20).setY(10).setWidth(500)
-                .setHeight(250).setCentered(false)
-                .setBackColor(Color.LIGHT_GRAY).setShowLegend(true)
-                .setPosition(DJChartOptions.POSITION_FOOTER)
-                .setTitle("Car Sales").setTitleColor(Color.DARK_GRAY)
-                .setTitleFont(Font.ARIAL_BIG_BOLD)
-                .setSubtitle("Units sold in year(s) 2009-2015")
-                .setSubtitleColor(Color.DARK_GRAY)
-                .setSubtitleFont(Font.GEORGIA_SMALL_BOLD)
-                .setLegendColor(Color.DARK_GRAY)
-                .setLegendFont(Font.ARIAL_SMALL_BOLD)
-                .setLegendBackgroundColor(Color.WHITE)
-                .setLegendPosition(DJChartOptions.EDGE_BOTTOM)
-                .setTitlePosition(DJChartOptions.EDGE_TOP)
-                .setLineStyle(DJChartOptions.LINE_STYLE_DOTTED)
-                .setLineWidth(1)
-                .setLineColor(Color.DARK_GRAY).setPadding(5)
-                .setKey((PropertyColumn) modelCol).addSerie(mfgCol)
-                .setCircular(true).build();
-        return chart;
-    }
-
-    public DynamicReport getPieReport() throws Exception {
-        builder.addChart(createPieChart());
-        return builder.build();
-    }
-    public DynamicReport getBarReport() throws Exception {
-        builder.addChart(createBarChart());
-        return builder.build();
+            document.save("/home/madnisal/save.pdf");
+            document.close();
+        } catch (IOException e) {
+            System.out.println(e+"x");
+        } catch (COSVisitorException cos) {
+            System.out.println(cos);
+        }
     }
 }
