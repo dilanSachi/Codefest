@@ -33,22 +33,14 @@ abstract class ReportBase {
 
     protected AbstractColumn modelCol;
     protected AbstractColumn mfgCol;
-    protected AbstractColumn qtyCol;
-    protected AbstractColumn yearCol;
 
     public ReportBase() {
         modelCol = ColumnBuilder.getNew()
-                .setColumnProperty("model", String.class.getName())
-                .setTitle("Model").setWidth(70).build();
+                .setColumnProperty("date", String.class.getName())
+                .setTitle("Date").setWidth(70).build();
         mfgCol = ColumnBuilder.getNew()
-                .setColumnProperty("manufacturer", String.class.getName())
-                .setTitle("Manufacturer").setWidth(70).build();
-        qtyCol = ColumnBuilder.getNew()
-                .setColumnProperty("quantity", Integer.class.getName())
-                .setTitle("Quantity").setWidth(70).build();
-        yearCol = ColumnBuilder.getNew()
-                .setColumnProperty("year", String.class.getName())
-                .setTitle("Year").setWidth(70).build();
+                .setColumnProperty("errors", String.class.getName())
+                .setTitle("Errors").setWidth(70).build();
     }
 
     public Style getHeaderStyle() {
@@ -83,8 +75,6 @@ public class Report extends ReportBase {
 
         builder.addColumn(modelCol);
         builder.addColumn(mfgCol);
-        builder.addColumn(qtyCol);
-        builder.addColumn(yearCol);
 
         builder.setUseFullPageWidth(true);
         builder.setDefaultStyles(null, null, getHeaderStyle(), null);
@@ -126,7 +116,7 @@ public class Report extends ReportBase {
                 .setLineStyle(DJChartOptions.LINE_STYLE_DOTTED)
                 .setLineWidth(1)
                 .setLineColor(Color.DARK_GRAY).setPadding(5)
-                .setCategory((PropertyColumn) yearCol).addSerie(qtyCol)
+                .setCategory((PropertyColumn) modelCol).addSerie(mfgCol)
                 .setShowLabels(false).setCategoryAxisFormat(categoryAxisFormat)
                 .setValueAxisFormat(valueAxisFormat).build();
         return chart;
@@ -151,7 +141,7 @@ public class Report extends ReportBase {
                 .setLineStyle(DJChartOptions.LINE_STYLE_DOTTED)
                 .setLineWidth(1)
                 .setLineColor(Color.DARK_GRAY).setPadding(5)
-                .setKey((PropertyColumn) modelCol).addSerie(qtyCol)
+                .setKey((PropertyColumn) modelCol).addSerie(mfgCol)
                 .setCircular(true).build();
         return chart;
     }
