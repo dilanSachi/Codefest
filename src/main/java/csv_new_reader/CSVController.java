@@ -28,40 +28,46 @@ public class CSVController implements Initializable{
     private Label lbl_next_session;
     @FXML
     private Label lbl_slot;
-
-
-    public void show(ActionEvent actionEvent) {
-        System.out.println("GGGGG");
-    }
+    @FXML
+    private Label lbl_current_production_line;
 
     public void initialize(URL location, ResourceBundle resources) {
         add_data();
     }
 
-    private static ArrayList<ArrayList<String[]>> data=new ArrayList<ArrayList<String[]>>();
+    private static ArrayList<ArrayList<ArrayList<String[]>>> data=new ArrayList<ArrayList<ArrayList<String[]>>>();
+    private static int current_production_line=0;
     private static int current_slot=0;
     private static LocalTime session_length;
+    private static int production_lines;
 
     private void add_data(){
         try{
-            List<String> lines= Files.readAllLines(Paths.get("src/main/java/csv_reader/employee_data.csv"));
-            int session_length_hour=Integer.parseInt(lines.get(0).split(",")[1].split(":")[0]);
-            int session_length_minute=Integer.parseInt(lines.get(0).split(",")[1].split(":")[1]);
-            int no_of_slots=Integer.parseInt(lines.get(1).split(",")[1]);
+            List<String> lines= Files.readAllLines(Paths.get("src/main/java/csv_new_reader/employee_data.csv"));
+            production_lines=Integer.parseInt(lines.get(0).split(",")[1]);
+            int session_length_hour=Integer.parseInt(lines.get(1).split(",")[1].split(":")[0]);
+            int session_length_minute=Integer.parseInt(lines.get(1).split(",")[1].split(":")[1]);
+            //int[] no_of_slots=Integer.parseInt(lines.get(2).split(",")[1]);
             session_length=LocalTime.of(session_length_hour, session_length_minute);
-            lines.remove(0);
-            lines.remove(0);
-            lines.remove(0);
 
-            for(int i=0;i<no_of_slots;i++){
-                data.add(new ArrayList<String[]>());
+            for(int i=0;i<production_lines;i++){
+                data.add(new ArrayList<ArrayList<String[]>>());
+                for(int j=0;j<Integer.parseInt(lines.get(2).split(",")[i+1]);j++){
+                    data.get(i).add(new ArrayList<String[]>());
+                }
             }
+
+            lines.remove(0);
+            lines.remove(0);
+            lines.remove(0);
+            lines.remove(0);
 
             for(String line : lines){
                 line=line.replace("\"","");
                 String []result=line.split(",");
-                data.get(Integer.parseInt(result[2])-1).add(result);
+                data.get(Integer.parseInt(result[3])-1).get(Integer.parseInt(result[2])-1).add(result);
             }
+
         }catch(Exception e){
             System.out.println(e.toString());
         }
@@ -73,25 +79,24 @@ public class CSVController implements Initializable{
         String slot="";
         LocalTime current_time=LocalTime.now();
         Duration dur1=Duration.between(LocalTime.MIN, session_length);
-        for (int i=0;i<data.get(current_slot).size();i++) {
-            int employee_hour = Integer.parseInt(data.get(current_slot).get(i)[1].substring(0, 2));
-            int employee_minute = Integer.parseInt(data.get(current_slot).get(i)[1].substring(3, 5));
+        lbl_current_production_line.setText(String.valueOf(current_production_line));
+        for (int i=0;i<data.get(current_production_line).get(current_slot).size();i++) {
+            int employee_hour = Integer.parseInt(data.get(current_production_line).get(current_slot).get(i)[1].substring(0, 2));
+            int employee_minute = Integer.parseInt(data.get(current_production_line).get(current_slot).get(i)[1].substring(3, 5));
             LocalTime start_time = LocalTime.of(employee_hour, employee_minute);
             Duration dur2 = Duration.between(start_time, current_time);
             ///Duration dur3=Duration.between(start_time,);
             if (dur2.get(ChronoUnit.SECONDS) >= 0 && dur1.get(ChronoUnit.SECONDS) > dur2.get(ChronoUnit.SECONDS)) {
 
-                name = data.get(current_slot).get(i)[0];
-                session = data.get(current_slot).get(i)[1];
-                slot = data.get(current_slot).get(i)[2];
+                name = data.get(current_production_line).get(current_slot).get(i)[0];
+                slot = data.get(current_production_line).get(current_slot).get(i)[2];
                 lbl_current_name.setText(name);
                 lbl_slot.setText(slot);
                 lbl_current_session.setText(LocalTime.now().toString().substring(0, 8));
 
-                if ((data.get(current_slot).size() - 1) != i) {
-                    name = data.get(current_slot).get(i + 1)[0];
-                    session = data.get(current_slot).get(i + 1)[1];
-                    slot = data.get(current_slot).get(i + 1)[2];
+                if ((data.get(current_production_line).get(current_slot).size() - 1) != i) {
+                    name = data.get(current_production_line).get(current_slot).get(i + 1)[0];
+                    session = data.get(current_production_line).get(current_slot).get(i + 1)[1];
                     lbl_next_name.setText(name);
                     lbl_next_session.setText(session);
                 }
@@ -101,7 +106,7 @@ public class CSVController implements Initializable{
     }
 
     public void showNextData(ActionEvent actionEvent) {
-        if(current_slot==data.size()-1){
+        if(current_slot==data.get(current_production_line).size()-1){
             current_slot=0;
         }else{
             current_slot=current_slot+1;
@@ -111,7 +116,7 @@ public class CSVController implements Initializable{
 
     public void showPreviousData(ActionEvent actionEvent) {
         if(current_slot==0){
-            current_slot=data.size()-1;
+            current_slot=data.get(current_production_line).size()-1;
         }else{
             current_slot=current_slot-1;
         }
@@ -120,6 +125,16 @@ public class CSVController implements Initializable{
 
     public void showEmployeeData(ActionEvent actionEvent) {
 
+        show_employee_data();
+    }
+
+    public void nextProductionLine(ActionEvent actionEvent) {
+        if(current_production_line==production_lines-1){
+            current_production_line=0;
+        }else{
+            current_production_line+=1;
+        }
+        current_slot=0;
         show_employee_data();
     }
 }

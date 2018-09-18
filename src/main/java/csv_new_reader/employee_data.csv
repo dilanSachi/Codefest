@@ -1,63 +1,88 @@
-length,2:00
-slots,5
-Employees
-Josiah Mccormick,10:00,1
-Flynn Maxwell,12:00,1
-Reece Pollard,14:00,1
-Isaac Moody,16:00,1
-Rahim Rose,18:00,1
-Luke Valdez,20:00,1
-Wesley Sanchez,22:00,1
-Baxter Cervantes,00:00,1
-Avram Zimmerman,02:00,1
-Hashim Huber,04:00,1
-Colton Franks,06:00,1
-Hasad Norton,08:00,1
-Kylynn Zimmerman,10:00,2
-Diana Gaines,12:00,2
-Imogene Sampson,14:00,2
-Nicole Fry,16:00,2
-Avye Steele,18:00,2
-Bo Pruitt,20:00,2
-Shay Norman,22:00,2
-Rinah Hubbard,00:00,2
-Yolanda Thomas,02:00,2
-Naida Salas,04:00,2
-Azalia Hebert,06:00,2
-Shea French,08:00,2
-Jessica Moss,10:00,3
-Raven Richard,12:00,3
-Lysandra Hull,14:00,3
-Carissa Spencer,16:00,3
-Simone Johnson,18:00,3
-Lavinia Stokes,20:00,3
-Maia Reese,22:00,3
-Ayanna Whitney,00:00,3
-Shafira French,02:00,3
-Zelenia Gilmore,04:00,3
-Taylor Everett,06:00,3
-Ruby Bates,08:00,3
-Beverly Gilbert,10:00,4
-Kay Parrish,12:00,4
-Ariel Kline,14:00,4
-Joan Everett,16:00,4
-Demetria Morton,18:00,4
-Cynthia Parsons,20:00,4
-Patience Kirk,22:00,4
-Unity Garner,00:00,4
-Desiree Suarez,02:00,4
-Tashya Lawrence,04:00,4
-Genevieve Tillman,06:00,4
-Madaline Acosta,08:00,4
-Lynn Pena,10:00,5
-Rachel Simon,12:00,5
-Sybill Garza,14:00,5
-Tatyana Haney,16:00,5
-Jescie Miranda,18:00,5
-Lois Holt,20:00,5
-Mikayla Green,22:00,5
-Judith Acosta,00:00,5
-Ainsley Golden,02:00,5
-Hedda Simmons,04:00,5
-Keiko Pugh,06:00,5
-Vivien Wood,08:00,5
+Production Lines,2
+Session length,2:00
+Slots,5,2
+Employee Name,Session Start Time,Slot,Production Line
+Josiah Mccormick,10:00,1,1
+Flynn Maxwell,12:00,1,1
+Reece Pollard,14:00,1,1
+Isaac Moody,16:00,1,1
+Rahim Rose,18:00,1,1
+Luke Valdez,20:00,1,1
+Wesley Sanchez,22:00,1,1
+Baxter Cervantes,00:00,1,1
+Avram Zimmerman,02:00,1,1
+Hashim Huber,04:00,1,1
+Colton Franks,06:00,1,1
+Hasad Norton,08:00,1,1
+Kylynn Zimmerman,10:00,2,1
+Diana Gaines,12:00,2,1
+Imogene Sampson,14:00,2,1
+Nicole Fry,16:00,2,1
+Avye Steele,18:00,2,1
+Bo Pruitt,20:00,2,1
+Shay Norman,22:00,2,1
+Rinah Hubbard,00:00,2,1
+Yolanda Thomas,02:00,2,1
+Naida Salas,04:00,2,1
+Azalia Hebert,06:00,2,1
+Shea French,08:00,2,1
+Jessica Moss,10:00,3,1
+Raven Richard,12:00,3,1
+Lysandra Hull,14:00,3,1
+Carissa Spencer,16:00,3,1
+Simone Johnson,18:00,3,1
+Lavinia Stokes,20:00,3,1
+Maia Reese,22:00,3,1
+Ayanna Whitney,00:00,3,1
+Shafira French,02:00,3,1
+Zelenia Gilmore,04:00,3,1
+Taylor Everett,06:00,3,1
+Ruby Bates,08:00,3,1
+Beverly Gilbert,10:00,4,1
+Kay Parrish,12:00,4,1
+Ariel Kline,14:00,4,1
+Joan Everett,16:00,4,1
+Demetria Morton,18:00,4,1
+Cynthia Parsons,20:00,4,1
+Patience Kirk,22:00,4,1
+Unity Garner,00:00,4,1
+Desiree Suarez,02:00,4,1
+Tashya Lawrence,04:00,4,1
+Genevieve Tillman,06:00,4,1
+Madaline Acosta,08:00,4,1
+Lynn Pena,10:00,5,1
+Rachel Simon,12:00,5,1
+Sybill Garza,14:00,5,1
+Tatyana Haney,16:00,5,1
+Jescie Miranda,18:00,5,1
+Lois Holt,20:00,5,1
+Mikayla Green,22:00,5,1
+Judith Acosta,00:00,5,1
+Ainsley Golden,02:00,5,1
+Hedda Simmons,04:00,5,1
+Keiko Pugh,06:00,5,1
+Vivien Wood,08:00,5,1
+Josiah,10:00,1,2
+Flynn,12:00,1,2
+Reece,14:00,1,2
+Isaac,16:00,1,2
+Rahim,18:00,1,2
+Luke,20:00,1,2
+Wesley,22:00,1,2
+Baxter,00:00,1,2
+Avram,02:00,1,2
+Hashim,04:00,1,2
+Colton,06:00,1,2
+Hasad,08:00,1,2
+Kylynn,10:00,2,2
+Diana,12:00,2,2
+Imogene,14:00,2,2
+Nicole,16:00,2,2
+Avye,18:00,2,2
+Bo,20:00,2,2
+Shay,22:00,2,2
+Rinah,00:00,2,2
+Yolanda,02:00,2,2
+Naida,04:00,2,2
+Azalia,06:00,2,2
+Shea,08:00,2,2
