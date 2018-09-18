@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csv_new_reader.CSVController">
+    <children>
+        <Pane layoutY="-1.0" prefHeight="599.0" prefWidth="731.0">
+            <children>
+                <Button fx:id="btn_show_data" layoutX="253.0" layoutY="505.0" mnemonicParsing="false" onAction="#showEmployeeData" prefHeight="38.0" prefWidth="202.0" text="Show Employee Data">
+                    <font>
+                        <Font name="System Bold" size="17.0" />
+                    </font>
+                </Button>
+                <Label contentDisplay="CENTER" layoutX="274.0" layoutY="33.0" text="Employee Data">
+                    <font>
+                        <Font name="System Bold" size="26.0" />
+                    </font>
+                </Label>
+                <Label layoutX="177.0" layoutY="160.0" text="Current Employee">
+                    <font>
+                        <Font name="System Bold" size="19.0" />
+                    </font>
+                </Label>
+                <Label layoutX="177.0" layoutY="265.0" text="Current Session :">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </Label>
+                <Label layoutX="177.0" layoutY="221.0" text="Name :">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </Label>
+                <Label layoutX="296.0" layoutY="94.0" text="Slot :">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </Label>
+                <Label layoutX="177.0" layoutY="335.0" text="Next Employee">
+                    <font>
+                        <Font name="System Bold" size="19.0" />
+                    </font>
+                </Label>
+                <Label layoutX="177.0" layoutY="440.0" text="Session starts in :">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </Label>
+                <Label layoutX="177.0" layoutY="396.0" text="Name :">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </Label>
+                <Label fx:id="lbl_current_name" layoutX="272.0" layoutY="222.0" prefHeight="25.0" prefWidth="184.0">
+                    <font>
+                        <Font name="System Italic" size="18.0" />
+                    </font>
+                </Label>
+                <Label fx:id="lbl_current_session" layoutX="364.0" layoutY="265.0" prefHeight="25.0" prefWidth="184.0">
+                    <font>
+                        <Font name="System Italic" size="18.0" />
+                    </font>
+                </Label>
+                <Label fx:id="lbl_next_name" layoutX="284.0" layoutY="394.0" prefHeight="25.0" prefWidth="184.0">
+                    <font>
+                        <Font name="System Italic" size="18.0" />
+                    </font>
+                </Label>
+                <Label fx:id="lbl_next_session" layoutX="370.0" layoutY="442.0" prefHeight="25.0" prefWidth="184.0">
+                    <font>
+                        <Font name="System Italic" size="18.0" />
+                    </font>
+                </Label>
+                <Label fx:id="lbl_slot" layoutX="354.0" layoutY="92.0" prefHeight="38.0" prefWidth="77.0">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </Label>
+                <Button fx:id="btn_previous_slot" layoutX="56.0" layoutY="509.0" mnemonicParsing="false" onAction="#showPreviousData" prefHeight="28.0" prefWidth="143.0" text="Previous Slot">
+                    <font>
+                        <Font name="System Bold" size="15.0" />
+                    </font>
+                </Button>
+                <Button fx:id="btn_next_slot" layoutX="509.0" layoutY="509.0" mnemonicParsing="false" onAction="#showNextData" prefHeight="28.0" prefWidth="143.0" text="Next Slot">
+                    <font>
+                        <Font name="System Bold" size="15.0" />
+                    </font>
+                </Button>
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>
