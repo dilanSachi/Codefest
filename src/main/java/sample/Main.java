@@ -110,6 +110,10 @@ public class Main extends Application {
             root1.getChildren().add(myButton);
         }
 
+        final Button viewEmployeeData = new Button("");
+        //viewEmployeeData.setOnAction({});
+        root1.getChildren().add(viewEmployeeData);
+
         class updatethread extends Thread{
             class updaterunnable implements Runnable{
                 int Timer;
