@@ -110,9 +110,37 @@ public class Main extends Application {
             root1.getChildren().add(myButton);
         }
 
-        final Button viewEmployeeData = new Button("");
-        //viewEmployeeData.setOnAction({});
+        final Button viewEmployeeData = new Button("Get Employee Data");
+        viewEmployeeData.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent event){
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/CSVLayout.fxml"));
+                    Parent roots = (Parent) fxmlLoader.load();
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(roots));
+                    stage.show();
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
         root1.getChildren().add(viewEmployeeData);
+
+        final Button getReport=new Button("Print Report");
+        getReport.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                DatabaseConnection data = new DatabaseConnection();
+                data.startConnection();
+                Report r = new Report();
+                try{
+                    r.generateReport(data.GetData());
+                }catch(Exception e){
+                    System.out.println(e);
+                }
+            }
+        });
+        root1.getChildren().add(getReport);
 
         class updatethread extends Thread{
             class updaterunnable implements Runnable{
@@ -178,12 +206,7 @@ public class Main extends Application {
 
         DatabaseConnection data = new DatabaseConnection();
         data.startConnection();
-        Report r = new Report();
-        try{
-            r.generateReport(data.GetData());
-        }catch(Exception e){
-            System.out.println(e);
-        }
+
 
 
     }
