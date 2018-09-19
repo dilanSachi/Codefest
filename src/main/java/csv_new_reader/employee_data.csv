@@ -1,7 +1,7 @@
 Production Lines,2
 Session length,2:00
-Slots,5,2
-Employee Name,Session Start Time,Slot,Production Line
+Stages,5,2
+Employee Name,Session Start Time,Stage,Production Line
 Josiah Mccormick,10:00,1,1
 Flynn Maxwell,12:00,1,1
 Reece Pollard,14:00,1,1

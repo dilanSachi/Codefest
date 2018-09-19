@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csv_new_reader.CSVController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csv_new_reader.CSVController">
     <children>
         <Pane layoutY="-1.0" prefHeight="599.0" prefWidth="731.0">
             <children>
@@ -35,7 +35,7 @@
                         <Font size="19.0" />
                     </font>
                 </Label>
-                <Label layoutX="413.0" layoutY="94.0" text="Slot :">
+                <Label layoutX="413.0" layoutY="94.0" text="Stage :">
                     <font>
                         <Font size="19.0" />
                     </font>
@@ -75,17 +75,17 @@
                         <Font name="System Italic" size="18.0" />
                     </font>
                 </Label>
-                <Label fx:id="lbl_slot" layoutX="471.0" layoutY="93.0" prefHeight="31.0" prefWidth="77.0">
+                <Label fx:id="lbl_slot" layoutX="479.0" layoutY="93.0" prefHeight="31.0" prefWidth="77.0">
                     <font>
                         <Font size="19.0" />
                     </font>
                 </Label>
-                <Button fx:id="btn_previous_slot" layoutX="56.0" layoutY="509.0" mnemonicParsing="false" onAction="#showPreviousData" prefHeight="28.0" prefWidth="143.0" text="Previous Slot">
+                <Button fx:id="btn_previous_slot" layoutX="56.0" layoutY="509.0" mnemonicParsing="false" onAction="#showPreviousData" prefHeight="28.0" prefWidth="143.0" text="Previous Stage">
                     <font>
                         <Font name="System Bold" size="15.0" />
                     </font>
                 </Button>
-                <Button fx:id="btn_next_slot" layoutX="517.0" layoutY="509.0" mnemonicParsing="false" onAction="#showNextData" prefHeight="28.0" prefWidth="143.0" text="Next Slot">
+                <Button fx:id="btn_next_slot" layoutX="517.0" layoutY="509.0" mnemonicParsing="false" onAction="#showNextData" prefHeight="28.0" prefWidth="143.0" text="Next Stage">
                     <font>
                         <Font name="System Bold" size="15.0" />
                     </font>
