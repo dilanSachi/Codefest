@@ -100,11 +100,21 @@ public class Main extends Application {
 
         FlowPane root1 = new FlowPane();
 
+        final String current_process_name = "";
+
         for(String d : ServerSide.LineDetails.keySet()){
             final Button myButton = new Button(d);
             myButton.setOnAction(new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
-                    myButton.setText("d");
+                    current_process_name=myButton.getText();
+                    series.getData().clear();
+                    series1.getData().clear();
+                    series2.getData().clear();
+                    series3.getData().clear();
+                    tseries.getData().clear();
+                    tseries1.getData().clear();
+                    tseries2.getData().clear();
+                    tseries3.getData().clear();
                 }
             });
             root1.getChildren().add(myButton);
@@ -149,14 +159,14 @@ public class Main extends Application {
                     this.Timer = Timer;
                 }
                 public void run(){
-                    series.getData().add(new XYChart.Data((Number)Timer,(Number)(ServerSide.LineDetails.get("p1")[0][0]/10)));
-                    series1.getData().add(new XYChart.Data((Number)Timer,(Number)(ServerSide.LineDetails.get("p1")[1][0]/10)));
-                    series2.getData().add(new XYChart.Data((Number)Timer,(Number)(ServerSide.LineDetails.get("p1")[2][0]/10)));
-                    series3.getData().add(new XYChart.Data((Number)Timer,(Number)(ServerSide.LineDetails.get("p1")[3][0]/10)));
-                    tseries.getData().add(new XYChart.Data((Number)Timer,(Number)(ServerSide.LineDetails.get("p1")[0][1]/10)));
-                    tseries1.getData().add(new XYChart.Data((Number)Timer,(Number)(ServerSide.LineDetails.get("p1")[1][1]/10)));
-                    tseries2.getData().add(new XYChart.Data((Number)Timer,(Number)(ServerSide.LineDetails.get("p1")[2][1]/10)));
-                    tseries3.getData().add(new XYChart.Data((Number)Timer,(Number)(ServerSide.LineDetails.get("p1")[3][1]/10)));
+                    series.getData().add(new XYChart.Data((Number)Timer,(Number)(ServerSide.LineDetails.get(current_process_name)[0][0]/10)));
+                    series1.getData().add(new XYChart.Data((Number)Timer,(Number)(ServerSide.LineDetails.get(current_process_name)[1][0]/10)));
+                    series2.getData().add(new XYChart.Data((Number)Timer,(Number)(ServerSide.LineDetails.get(current_process_name)[2][0]/10)));
+                    series3.getData().add(new XYChart.Data((Number)Timer,(Number)(ServerSide.LineDetails.get(current_process_name)[3][0]/10)));
+                    tseries.getData().add(new XYChart.Data((Number)Timer,(Number)(ServerSide.LineDetails.get(current_process_name)[0][1]/10)));
+                    tseries1.getData().add(new XYChart.Data((Number)Timer,(Number)(ServerSide.LineDetails.get(current_process_name)[1][1]/10)));
+                    tseries2.getData().add(new XYChart.Data((Number)Timer,(Number)(ServerSide.LineDetails.get(current_process_name)[2][1]/10)));
+                    tseries3.getData().add(new XYChart.Data((Number)Timer,(Number)(ServerSide.LineDetails.get(current_process_name)[3][1]/10)));
                     int[][] x = {{0,0},{0,0},{0,0},{0,0}};
                     synchronized (new Object()) {
                         ServerSide.LineDetails.put("p1", x);
