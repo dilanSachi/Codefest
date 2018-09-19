@@ -30,6 +30,8 @@ public class CSVController implements Initializable{
     private Label lbl_slot;
     @FXML
     private Label lbl_current_production_line;
+    @FXML
+    private Label lbl_manager_name;
 
     public void initialize(URL location, ResourceBundle resources) {
         add_data();
@@ -40,11 +42,17 @@ public class CSVController implements Initializable{
     private static int current_slot=0;
     private static LocalTime session_length;
     private static int production_lines;
+    String[] managers;
 
     private void add_data(){
         try{
             List<String> lines= Files.readAllLines(Paths.get("src/main/java/csv_new_reader/employee_data.csv"));
             production_lines=Integer.parseInt(lines.get(0).split(",")[1]);
+            managers=new String[production_lines];
+            for(int i=0;i<production_lines;i++){
+                managers[i]=lines.get(1).split(",")[i+1];
+            }
+            lines.remove(1);
             int session_length_hour=Integer.parseInt(lines.get(1).split(",")[1].split(":")[0]);
             int session_length_minute=Integer.parseInt(lines.get(1).split(",")[1].split(":")[1]);
             //int[] no_of_slots=Integer.parseInt(lines.get(2).split(",")[1]);
@@ -103,6 +111,7 @@ public class CSVController implements Initializable{
                 break;
             }
         }
+        lbl_manager_name.setText(managers[current_production_line]);
     }
 
     public void showNextData(ActionEvent actionEvent) {
