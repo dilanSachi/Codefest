@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
@@ -32,51 +33,52 @@ import org.apache.pdfbox.pdmodel.graphics.xobject.PDJpeg;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
-
+import static java.lang.Integer.parseInt;
 
 
 public class Report {
 
-    void generateReport(){
-        DefaultPieDataset pieDataset = new DefaultPieDataset();
-        pieDataset.setValue("Chrome", new Integer(42));
-        pieDataset.setValue("Explorer", new Integer(24));
-        pieDataset.setValue("Firefox", new Integer(24));
-        pieDataset.setValue("Safari", new Integer(12));
-        pieDataset.setValue("Opera", new Integer(8));
-        JFreeChart chart = ChartFactory.createPieChart3D(
-                "Browser Popularity", // Title
-                pieDataset, // Dataset
-                true, // Show legend
-                true, // Use tooltips
-                false // Configure chart to generate URLs?
-        );
-        try {
-            ChartUtilities.saveChartAsJPEG(new File("/home/madnisal/chart.jpg"), chart, 500, 300);
-        } catch (Exception e) {
-            System.out.println(e);
+    void generateReport(ArrayList<ResultSet> x) throws Exception{
+
+        PDDocument document = new PDDocument();
+
+        for (ResultSet r : x) {
+
+            DefaultCategoryDataset lineDataset = new DefaultCategoryDataset();
+            while (r.next()) {
+                System.out.println(r.getString("Error")+" "+r.getString("Month")+"-"+r.getString("Year"));
+                lineDataset.addValue((Integer.parseInt(r.getString("Error"))), "Errors", r.getString("Month")+"-"+r.getString("Year"));
+                lineDataset.addValue((Integer.parseInt(r.getString("Total"))), "Total", r.getString("Month")+"-"+r.getString("Year"));
+            }
+            System.out.println("x");
+            JFreeChart chart = ChartFactory.createLineChart("Errors", "Date", "Errors", lineDataset);
+
+            try {
+                ChartUtilities.saveChartAsJPEG(new File("/home/madnisal/chart.jpg"), chart, 500, 300);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+
+            try {
+                PDPage page = new PDPage(PDPage.PAGE_SIZE_A4);
+                document.addPage(page);
+
+                InputStream in = new FileInputStream(new File("/home/madnisal/chart.jpg"));
+                PDJpeg img = new PDJpeg(document, in);
+                PDPageContentStream contentStream = new PDPageContentStream(document, page);
+                contentStream.drawImage(img, 10, 300);
+                contentStream.close();
+
+            } catch (IOException e) {
+                System.out.println(e+"x");
+            }
         }
+        document.save("/home/madnisal/save.pdf");
+        document.close();
 
-        try {
 
-            PDDocument document = new PDDocument();
-            PDPage page = new PDPage(PDPage.PAGE_SIZE_A4);
-            document.addPage(page);
-
-            InputStream in = new FileInputStream(new File("/home/madnisal/chart.jpg"));
-            PDJpeg img = new PDJpeg(document, in);
-            PDPageContentStream contentStream = new PDPageContentStream(document, page);
-            contentStream.drawImage(img, 10, 300);
-            contentStream.close();
-
-            document.save("/home/madnisal/save.pdf");
-            document.close();
-        } catch (IOException e) {
-            System.out.println(e+"x");
-        } catch (COSVisitorException cos) {
-            System.out.println(cos);
-        }
     }
 }

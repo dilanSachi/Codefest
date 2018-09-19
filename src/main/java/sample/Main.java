@@ -110,6 +110,10 @@ public class Main extends Application {
             root1.getChildren().add(myButton);
         }
 
+        final Button viewEmployeeData = new Button("");
+        //viewEmployeeData.setOnAction({});
+        root1.getChildren().add(viewEmployeeData);
+
         class updatethread extends Thread{
             class updaterunnable implements Runnable{
                 int Timer;
@@ -170,15 +174,17 @@ public class Main extends Application {
         Serverthread.start();
         launch(args);
 
+
+
+        DatabaseConnection data = new DatabaseConnection();
+        data.startConnection();
+        Report r = new Report();
         try{
-            Thread.sleep(10000);
+            r.generateReport(data.GetData());
         }catch(Exception e){
             System.out.println(e);
         }
 
-        DatabaseConnection data = new DatabaseConnection();
-        data.startConnection();
-        data.GetData();
 
     }
 }
