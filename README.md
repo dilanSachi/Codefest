@@ -1,4 +1,4 @@
-# Project Title
+# Production Line Simulator
 
 This is a project which simulates a production line manager software which was developed for competing in SLIIT - CodeFest Hackathon
 
