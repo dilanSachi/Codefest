@@ -170,15 +170,17 @@ public class Main extends Application {
         Serverthread.start();
         launch(args);
 
+
+
+        DatabaseConnection data = new DatabaseConnection();
+        data.startConnection();
+        Report r = new Report();
         try{
-            Thread.sleep(10000);
+            r.generateReport(data.GetData());
         }catch(Exception e){
             System.out.println(e);
         }
 
-        DatabaseConnection data = new DatabaseConnection();
-        data.startConnection();
-        data.GetData();
 
     }
 }

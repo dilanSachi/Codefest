@@ -43,13 +43,6 @@ public class DatabaseConnection {
             System.out.println(e);
         }
         System.out.println("d");
-        try{
-            for (ResultSet r : d){
-                while(r.next()){
-                    System.out.println(r.getString("produce"));
-                }
-            }
-        }catch(Exception e){}
         return d;
 
     }
